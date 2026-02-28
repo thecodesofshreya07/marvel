@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import "./MarvelNavbar.css";
+import { useNavigate } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "Avengers",        href: "#act-one"       },
-  { label: "Super Soldier",   href: "#act-two"       },
-  { label: "New Era",         href: "#act-three"     },
-  { label: "Multiverse Saga", href: "#multiverse"    },
+  { label: "Avengers", href: "#act-one" },
+  { label: "Super Soldier", route: "/supersoldier" }, // 👈 changed
+  { label: "New Era", href: "#act-three" },
+  { label: "Multiverse Saga", href: "#multiverse" },
 ];
 
 export default function MarvelNavbar() {
-  const [visible, setVisible]   = useState(false);   // appears after landing
+  const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);   // appears after landing
   const [scrolled, setScrolled] = useState(false);   // bg darkens after small scroll
   const [menuOpen, setMenuOpen] = useState(false);   // mobile hamburger
 
@@ -43,8 +45,8 @@ export default function MarvelNavbar() {
         <motion.nav
           className={`marvel-nav ${scrolled ? "marvel-nav--scrolled" : ""}`}
           initial={{ y: -72, opacity: 0 }}
-          animate={{ y: 0,   opacity: 1 }}
-          exit={{    y: -72, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -72, opacity: 0 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* ── LOGO ── */}
@@ -59,9 +61,18 @@ export default function MarvelNavbar() {
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
                 <a
-                  href={link.href}
+                  href={link.href || link.route}
                   className="nav-link"
-                  onClick={(e) => handleNav(e, link.href)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMenuOpen(false);
+
+                    if (link.route) {
+                      navigate(link.route);   // 🚀 route navigation
+                    } else {
+                      handleNav(e, link.href); // normal scroll
+                    }
+                  }}
                 >
                   {link.label}
                   <span className="nav-link-bar" />
@@ -74,7 +85,7 @@ export default function MarvelNavbar() {
           <a href="#multiverse" className="nav-cta" onClick={(e) => handleNav(e, "#multiverse")}>
             <span>Explore</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
 
@@ -94,7 +105,7 @@ export default function MarvelNavbar() {
                 className="nav-mobile-menu"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{    opacity: 0, y: -10 }}
+                exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
               >
                 {NAV_LINKS.map((link) => (

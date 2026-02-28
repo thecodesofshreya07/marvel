@@ -22,6 +22,7 @@
 >>>>>>> e2104e582f0bd2dedfd351751619e8b35d9c572a
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.1",
     "three": "^0.183.1"
   },
   "devDependencies": {
