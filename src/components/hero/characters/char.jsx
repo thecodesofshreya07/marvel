@@ -1,22 +1,18 @@
-import { useState, lazy, Suspense } from "react";
+import { useState } from "react";
 import { CHARACTERS } from "./data/characters";
 import ChoosePage from "./ChoosePage";
 import DetailPage from "./DetailPage";
 import CustomCursor from "./CustomCursor";
-
-const MultiverseOrbitSection = lazy(() =>
-    import("../../3d/MultiverseOrbitSection.jsx").then((m) => ({ default: m.default }))
-);
+import TeamBuilder from "./TeamBuilder";
 
 // ─────────────────────────────────────────────
 // MAIN APP
 // ─────────────────────────────────────────────
 export default function MarvelApp() {
-    const [page, setPage] = useState("choose"); // "choose" | "detail"
+    const [page, setPage] = useState("choose"); // "choose" | "detail" | "team"
     const [selectedIdx, setSelectedIdx] = useState(3);
     const [transitioning, setTransitioning] = useState(false);
     const [displayPage, setDisplayPage] = useState("choose");
-    const [chooseView, setChooseView] = useState("carousel"); // "carousel" | "multiverse"
 
     const transitionTo = (newPage) => {
         setTransitioning(true);
@@ -59,38 +55,23 @@ export default function MarvelApp() {
                 <div style={{ fontSize: "18px", color: "rgba(255,255,255,0.8)", cursor: "pointer", letterSpacing: "3px", fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700 }}>≡</div>
                 <div style={{ fontFamily: "'Anton', sans-serif", fontSize: "22px", letterSpacing: "4px", color: "#fff", textShadow: "0 0 20px rgba(255,255,255,0.3)" }}>MARVEL</div>
                 <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    {displayPage === "choose" && (
-                        <div style={{ display: "flex", gap: "4px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "2px" }}>
-                            <button
-                                type="button"
-                                onClick={() => setChooseView("carousel")}
-                                style={{
-                                    padding: "6px 12px",
-                                    background: chooseView === "carousel" ? "rgba(192,57,43,0.4)" : "transparent",
-                                    border: "1px solid rgba(255,255,255,0.3)",
-                                    color: "#fff",
-                                    cursor: "pointer",
-                                    textTransform: "uppercase",
-                                }}
-                            >
-                                Carousel
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setChooseView("multiverse")}
-                                style={{
-                                    padding: "6px 12px",
-                                    background: chooseView === "multiverse" ? "rgba(192,57,43,0.4)" : "transparent",
-                                    border: "1px solid rgba(255,255,255,0.3)",
-                                    color: "#fff",
-                                    cursor: "pointer",
-                                    textTransform: "uppercase",
-                                }}
-                            >
-                                Multiverse
-                            </button>
-                        </div>
-                    )}
+                    <button
+                        type="button"
+                        onClick={() => transitionTo("team")}
+                        style={{
+                            padding: "6px 14px",
+                            fontFamily: "'Barlow Condensed', sans-serif",
+                            fontSize: "11px",
+                            letterSpacing: "2px",
+                            textTransform: "uppercase",
+                            border: "1px solid rgba(255,255,255,0.4)",
+                            background: page === "team" ? "rgba(192,57,43,0.4)" : "transparent",
+                            color: "#fff",
+                            cursor: "pointer",
+                        }}
+                    >
+                        Team Builder
+                    </button>
                     <div style={{ fontSize: "20px", color: "rgba(255,255,255,0.7)", cursor: "pointer" }}>👤</div>
                 </div>
             </nav>
@@ -109,27 +90,19 @@ export default function MarvelApp() {
                 }}
             />
 
-            {/* CHOOSE PAGE — carousel or 3D multiverse orbit */}
+            {/* CHOOSE PAGE */}
             <div style={{ opacity: displayPage === "choose" ? 1 : 0, pointerEvents: displayPage === "choose" ? "all" : "none", position: "absolute", inset: 0, transition: "opacity 0.3s", overflow: "visible" }}>
-                {chooseView === "carousel" && (
-                    <ChoosePage onSelect={handleSelect} selectedIdx={selectedIdx} setSelectedIdx={setSelectedIdx} />
-                )}
-                {chooseView === "multiverse" && (
-                    <Suspense fallback={<div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "rgba(255,255,255,0.6)", fontFamily: "'Barlow Condensed', sans-serif" }}>Loading Multiverse…</div>}>
-                        <MultiverseOrbitSection
-                            characters={CHARACTERS}
-                            selectedIndex={selectedIdx}
-                            onSelect={setSelectedIdx}
-                            onConfirmSelection={handleSelect}
-                            accentColor={char?.accentColor ?? "#c0392b"}
-                        />
-                    </Suspense>
-                )}
+                <ChoosePage onSelect={handleSelect} selectedIdx={selectedIdx} setSelectedIdx={setSelectedIdx} />
+            </div>
+
+            {/* TEAM BUILDER PAGE */}
+            <div style={{ opacity: displayPage === "team" ? 1 : 0, pointerEvents: displayPage === "team" ? "all" : "none", position: "absolute", inset: 0, transition: "opacity 0.3s" }}>
+                {displayPage === "team" && <TeamBuilder characters={CHARACTERS} onBack={() => transitionTo("choose")} />}
             </div>
 
             {/* DETAIL PAGE */}
             <div style={{ opacity: displayPage === "detail" ? 1 : 0, pointerEvents: displayPage === "detail" ? "all" : "none", position: "absolute", inset: 0, transition: "opacity 0.3s" }}>
-                {displayPage === "detail" && <DetailPage char={char} onBack={handleBack} />}
+                {displayPage === "detail" && <DetailPage char={char} allChars={CHARACTERS} onBack={handleBack} />}
             </div>
 
             {/* BACK BUTTON */}
