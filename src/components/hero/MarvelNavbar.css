@@ -1,0 +1,247 @@
+/**
+ * MarvelNavbar.css
+ * Fixed navbar that slides in after landing screen.
+ * Palette: Navy #030b18 | Red #c9151e | Gold #d4890a
+ * Fonts: Bebas Neue (logo) | Orbitron (links) | Rajdhani (body)
+ */
+
+/* ── BASE ─────────────────────────────────────── */
+.marvel-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  gap: 2rem;
+
+  /* Default: light glass so it doesn't obscure sections */
+  background: rgba(3, 11, 24, 0.55);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border-bottom: 1px solid rgba(201, 21, 30, 0.18);
+
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* After scrolling deeper — more opaque */
+.marvel-nav--scrolled {
+  background: rgba(3, 11, 24, 0.92);
+  border-bottom-color: rgba(201, 21, 30, 0.30);
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.65);
+}
+
+/* ── RED ACCENT TOP EDGE ────────────────────── */
+.marvel-nav::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #c9151e     20%,
+    #d4890a     50%,
+    #c9151e     80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(201, 21, 30, 0.55);
+}
+
+/* ── LOGO ────────────────────────────────────── */
+.nav-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  text-decoration: none;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.nav-logo-m {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+  color: #c9151e;
+  text-shadow: 0 0 18px rgba(201, 21, 30, 0.7);
+  letter-spacing: 0;
+}
+
+.nav-logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.55rem;
+  line-height: 1;
+  color: #ffffff;
+  letter-spacing: 0.12em;
+}
+
+.nav-logo-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c9151e;
+  box-shadow: 0 0 8px #c9151e;
+  margin-left: 3px;
+  margin-bottom: 2px;
+  align-self: flex-end;
+}
+
+/* ── DESKTOP LINKS ───────────────────────────── */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0 auto 0 3rem; /* push to centre-left; CTA stays right */
+  padding: 0;
+}
+
+.nav-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.52rem, 0.9vw, 0.65rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(190, 215, 240, 0.82);   /* visible steel-blue */
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+/* Animated underbar */
+.nav-link-bar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 100%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #c9151e, transparent);
+  box-shadow: 0 0 6px #c9151e;
+  border-radius: 2px;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover .nav-link-bar,
+.nav-link.active .nav-link-bar {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ── CTA BUTTON ─────────────────────────────── */
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding: 0.45rem 1.1rem;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.60rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #ffffff;
+
+  background: linear-gradient(135deg, #c9151e, #9a0e16);
+  border: 1px solid rgba(201, 21, 30, 0.55);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: box-shadow 0.22s, filter 0.22s;
+}
+
+.nav-cta:hover {
+  box-shadow: 0 0 20px rgba(201, 21, 30, 0.55), 0 0 40px rgba(201, 21, 30, 0.25);
+  filter: brightness(1.12);
+}
+
+.nav-cta svg {
+  transition: transform 0.2s;
+}
+
+.nav-cta:hover svg {
+  transform: translateX(2px);
+}
+
+/* ── HAMBURGER ───────────────────────────────── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: none;
+  border: 1px solid rgba(201, 21, 30, 0.30);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.nav-hamburger span {
+  display: block;
+  height: 1.5px;
+  background: rgba(190, 215, 240, 0.85);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s, width 0.25s;
+}
+
+.nav-hamburger span:nth-child(2) { width: 70%; margin-left: auto; }
+
+.nav-hamburger--open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger--open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger--open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── MOBILE DROPDOWN ─────────────────────────── */
+.nav-mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(3, 11, 24, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201, 21, 30, 0.22);
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 0;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.nav-mobile-link {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(190, 215, 240, 0.82);
+  text-decoration: none;
+  padding: 0.85rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-mobile-link:hover {
+  color: #ffffff;
+  background: rgba(201, 21, 30, 0.08);
+}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-links    { display: none; }
+  .nav-cta      { display: none; }
+  .nav-hamburger { display: flex; }
+}
+
+@media (min-width: 769px) {
+  .nav-mobile-menu { display: none !important; }
+}

@@ -1,0 +1,246 @@
+/**
+ * HeroCinematic.css
+ * Landing screen + root wrapper.
+ * Palette extracted from marvelMain.jpg:
+ *   Deep navy-black  #030b18
+ *   City-glow teal   #071e38
+ *   Iron Man red     #c9151e
+ *   Arc gold         #d4890a
+ *   Steel text — ALL FULLY READABLE (no low-opacity ghosting)
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap");
+
+/* ── Root ─────────────────────────────────── */
+.cinematic-root {
+  position: relative;
+  background: #030b18;
+}
+
+.acts-stack {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Landing Section ──────────────────────── */
+.landing-screen {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #030b18;
+}
+
+/* ── BG image layer ───────────────────────── */
+.landing-bg {
+  position: absolute;
+  inset: -6%;
+  z-index: 0;
+  transform-origin: center center;
+}
+
+.landing-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  filter: brightness(0.82) saturate(1.12) contrast(1.05);
+}
+
+/* ── Gradient overlays ───────────────────── */
+/* Bottom vignette — bleeds to solid so ActOne begins cleanly */
+.landing-grad-bottom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent           0%,
+    transparent           38%,
+    rgba(3, 11, 24, 0.55) 62%,
+    rgba(3, 11, 24, 0.90) 80%,
+    #030b18              100%
+  );
+}
+
+/* Top vignette */
+.landing-grad-top {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 11, 24, 0.55) 0%,
+    transparent            16%
+  );
+}
+
+/* Left-side text contrast — slightly heavier so text pops over any bg */
+.landing-grad-left {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(3, 11, 24, 0.82) 0%,   /* was 0.75 — heavier for text legibility */
+    rgba(3, 11, 24, 0.35) 40%,
+    transparent            68%
+  );
+}
+
+/* ── Foreground ── */
+.landing-foreground {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 0 clamp(2rem, 8vw, 7rem) clamp(3.5rem, 7vh, 5.5rem);
+  pointer-events: none;
+}
+
+/* ── Title block ─────────────────────────── */
+.landing-title-block {
+  max-width: 780px;
+}
+
+/* ─── EYEBROW — was barely visible, now solid red ─── */
+.landing-eyebrow {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.58rem, 1vw, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 0.50em;
+  text-transform: uppercase;
+  color: #e02028;           /* red-light — fully opaque, no rgba fade */
+  margin-bottom: 0.90rem;
+  padding-left: 2.2rem;
+  position: relative;
+}
+
+.landing-eyebrow::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 2px;
+  background: #e02028;
+  box-shadow: 0 0 10px rgba(201, 21, 30, 0.90);
+}
+
+.landing-h1 {
+  margin: 0 0 1rem;
+  line-height: 0.9;
+}
+
+/* ─── MAIN WORDMARK ─── */
+.landing-h1-main {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5.5rem, 15vw, 14rem);
+  letter-spacing: 0.06em;
+  line-height: 0.86;
+  color: #ffffff;           /* pure white — maximum legibility */
+  text-shadow:
+    0 0 100px rgba(201, 21, 30, 0.55),
+    0 0  45px rgba(201, 21, 30, 0.28),
+    0   5px  28px rgba(0, 0, 0, 0.98);
+}
+
+/* ─── SUBTITLE — was rgba(160,200,240,0.55) — now fully visible ─── */
+.landing-h1-sub {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.72rem, 1.8vw, 1.08rem);
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(180, 215, 250, 0.90);   /* was 0.55 — now crisp and readable */
+  margin-top: 0.38rem;
+}
+
+/* Divider rule — red to gold */
+.landing-rule {
+  width: 110px;
+  height: 2px;
+  margin: 1rem 0;
+  background: linear-gradient(90deg, #c9151e, #d4890a 55%, transparent);
+  box-shadow: 0 0 16px rgba(201,21,30,0.65), 0 0 32px rgba(201,21,30,0.28);
+  position: relative;
+}
+
+.landing-rule::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 8px;
+  height: 6px;
+  border-radius: 2px;
+  background: #c9151e;
+  box-shadow: 0 0 14px #c9151e, 0 0 26px rgba(201,21,30,0.65);
+}
+
+/* ─── TAGLINE — was rgba(160,200,230,0.55) — now readable ─── */
+.landing-tagline {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(0.96rem, 1.50vw, 1.10rem);
+  font-weight: 500;
+  line-height: 1.82;
+  color: rgba(180, 215, 245, 0.90);   /* was 0.55 — fully legible */
+  margin: 0;
+}
+
+/* ── Scroll cue ──────────────────────────── */
+.landing-scroll-cue {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.42rem;
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ─── SCROLL TEXT — was 0.38 opacity — now visible ─── */
+.landing-scroll-cue span {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(160, 200, 235, 0.75);   /* was 0.38 */
+}
+
+.landing-scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(160, 200, 235, 0.65)   /* was 0.50 */
+  );
+  animation: scrollLinePulse 1.7s ease-in-out infinite;
+}
+
+@keyframes scrollLinePulse {
+  0%, 100% { opacity: 0.30; transform: scaleY(0.5);  }
+  50%       { opacity: 1;   transform: scaleY(1);     }
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 640px) {
+  .landing-h1-main  { font-size: clamp(4rem, 20vw, 7rem); }
+  .landing-foreground { padding: 0 1.5rem 3rem; }
+}

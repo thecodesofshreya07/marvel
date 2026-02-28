@@ -1,0 +1,433 @@
+/**
+ * hero.css
+ * Structure, layout, animation keyframes.
+ * All colors/typography/glass theme → heroTheme.css
+ *
+ * NOTE: Text visibility fix summary
+ * - heroTheme.css: --text-mid raised to 0.96, --text-lo to 0.82, --text-accent fully opaque
+ * - HeroCinematic.css: .landing-h1-sub, .landing-tagline, .landing-eyebrow all raised to 0.90+
+ * - All eyebrow/label colors now use --red-light / --gold-bright (opaque) not dimmed rgba
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap");
+@import "./heroTheme.css";
+
+/* ─────────────────────────────────
+   STORYLINE WRAP
+──────────────────────────────────── */
+.storyline-wrap    { position: relative; min-height: 100vh; }
+.storyline-sections { position: relative; }
+
+.storyline-marvel-logo  { display: none !important; }
+.storyline-marvel-text  { display: none !important; }
+.storyline-marvel-sub   { display: none !important; }
+
+/* ─────────────────────────────────
+   MUSIC BUTTON
+──────────────────────────────────── */
+.storyline-music-wrap {
+  position: fixed;
+  bottom: 1.4rem; right: 1.4rem;
+  z-index: 201;
+}
+
+.storyline-music-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: box-shadow 0.25s;
+}
+
+/* ─────────────────────────────────
+   PARALLAX HELPER
+──────────────────────────────────── */
+.act-parallax-bg { will-change: transform; }
+
+/* ─────────────────────────────────
+   POSTER CARDS
+──────────────────────────────────── */
+.storyline-poster {
+  position: absolute;
+  z-index: 4;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid;
+}
+
+.storyline-poster img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.act-one-poster   { width: clamp(200px,22vw,400px); height: clamp(280px,31vw,560px); top:50%; right:8%; transform:translateY(-50%); }
+.act-two-poster   { width: clamp(180px,18vw,320px); height: clamp(260px,27vw,480px); top:50%; left:6%;  transform:translateY(-50%); }
+.act-three-poster { width: clamp(200px,20vw,380px); height: clamp(280px,28vw,520px); top:50%; right:8%; transform:translateY(-50%); }
+
+/* ─────────────────────────────────
+   HERO BG IMAGE LAYER
+──────────────────────────────────── */
+.hero-bg-image {
+  position: absolute;
+  inset: -10% 0;
+  z-index: 0;
+}
+
+.hero-bg-image img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: brightness(0.30) saturate(1.4);
+}
+
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to right,  rgba(0,0,0,0.90) 0%, rgba(0,0,0,0.50) 45%, rgba(0,0,0,0.10) 100%),
+    linear-gradient(to top,    rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.32) 40%, transparent 70%);
+}
+
+.hero-foreground {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(ellipse 78% 58% at 50% 108%, rgba(0,0,0,0.72) 0%, transparent 70%);
+}
+
+/* ─────────────────────────────────
+   CONTENT OVERLAY POSITION
+──────────────────────────────────── */
+.hero-content-overlay {
+  position: relative;
+  z-index: 8;
+  padding: clamp(5rem,8vh,7rem) clamp(2rem,8vw,7rem);
+  padding-right: clamp(1rem,5vw,4rem);
+  max-width: min(680px, 54vw);
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .hero-content-overlay { max-width: 100%; padding: 5rem 2rem 3rem; }
+}
+
+/* ─────────────────────────────────
+   ACT ONE – LAYOUT
+──────────────────────────────────── */
+.act-one {
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.act-one-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.act-one-content { position: relative; z-index: 8; }
+
+.act-one-bg .grid-lines {
+  position: absolute;
+  inset: 0;
+  animation: gridDrift 25s linear infinite;
+}
+
+.act-one-radial {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 52% 62% at 16% 56%, rgba(201,21,30,0.10) 0%, transparent 68%);
+}
+
+.shield-deco {
+  position: absolute;
+  right: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.act-one-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.act-one-content .act-one-eyebrow { margin-bottom: 1rem; }
+
+.phase-one-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.26rem;
+  margin-bottom: 1.4rem;
+}
+
+.avenger-tags { margin-top: 0; }
+
+.act-one-divider { display: block; }
+
+/* ─────────────────────────────────
+   ACT TWO – LAYOUT
+──────────────────────────────────── */
+.act-two {
+  align-items: center;
+  justify-content: center;
+}
+
+.act-two-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.serum-glow {
+  position: absolute;
+  width: 560px; height: 720px;
+  left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  animation: serumPulse 3.5s ease-in-out infinite;
+}
+
+.serum-particles { position: absolute; inset: 0; }
+
+.serum-particles span {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px currentColor;
+  opacity: 0;
+  animation: floatUp var(--dur,6s) ease-in infinite var(--delay,0s);
+  left: var(--x,50%);
+  bottom: -8px;
+}
+
+.act-two-inner {
+  position: relative;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: clamp(2rem,5vw,5rem);
+  align-items: center;
+  padding: clamp(5rem,8vh,7rem) clamp(2rem,8vw,7rem);
+  max-width: 1200px;
+  width: 100%;
+}
+
+@media (max-width: 820px) {
+  .act-two-inner { grid-template-columns: 1fr; }
+  .act-two-left  { display: none; }
+}
+
+.act-two-left { position: relative; }
+
+.serum-vial-wrapper {
+  position: relative;
+  width: 160px; height: 320px;
+  margin: 0 auto;
+}
+
+.serum-vial {
+  width: 80px; height: 260px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+.serum-liquid {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 70%;
+  animation: serumFlow 3s ease-in-out infinite;
+}
+
+.serum-bubbles { position: absolute; inset: 0; }
+
+.serum-bubbles::before,
+.serum-bubbles::after {
+  content: '';
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  animation: bubbleRise 2.2s ease-in infinite;
+}
+
+.serum-bubbles::before { left: 25%; animation-delay: 0.5s; }
+.serum-bubbles::after  { left: 60%; animation-delay: 1.3s; }
+
+.transformation-bar { margin-bottom: 0.85rem; }
+
+.transformation-bar-track {
+  height: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.transformation-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  animation: barFill 2s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+/* ─────────────────────────────────
+   ACT THREE – LAYOUT
+──────────────────────────────────── */
+.act-three {
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.act-three-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.stars-field { position: absolute; inset: 0; }
+
+.stars-field::before,
+.stars-field::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 18% 28%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 12%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 42% 62%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(1px 1px at 63% 80%, rgba(255,255,255,0.48) 0%, transparent 100%),
+    radial-gradient(1px 1px at  9% 71%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 48%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(2px 2px at 74% 38%, rgba(255,255,255,0.85) 0%, transparent 100%);
+}
+
+.stars-field::after {
+  background-image:
+    radial-gradient(1px 1px at 32% 42%, rgba(255,255,255,0.52) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 22%, rgba(255,255,255,0.62) 0%, transparent 100%),
+    radial-gradient(1px 1px at 14% 83%, rgba(255,255,255,0.42) 0%, transparent 100%),
+    radial-gradient(1px 1px at 84% 64%, rgba(255,255,255,0.72) 0%, transparent 100%),
+    radial-gradient(2px 2px at 46% 47%, rgba(240,165,0,0.82)  0%, transparent 100%);
+}
+
+.multiverse-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  animation: ringExpand 7s ease-out infinite;
+}
+
+.multiverse-ring:nth-child(2) { width: 280px; height: 280px; animation-delay: 0s;    }
+.multiverse-ring:nth-child(3) { width: 480px; height: 480px; animation-delay: 2.3s;  }
+.multiverse-ring:nth-child(4) { width: 680px; height: 680px; animation-delay: 4.6s;  }
+
+.act-three-content {
+  position: relative;
+  z-index: 8;
+  padding: clamp(5rem,8vh,7rem) clamp(2rem,8vw,7rem);
+  padding-right: clamp(1rem,5vw,4rem);
+  max-width: min(680px,54vw);
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .act-three-content { max-width: 100%; padding: 5rem 2rem 3rem; }
+}
+
+.saga-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: clamp(1.4rem,3.5vw,3rem);
+  margin-bottom: 1.7rem;
+  flex-wrap: wrap;
+}
+
+.hero-stat { display: flex; flex-direction: column; }
+
+.three-scene-wrapper {
+  width: 100%;
+  height: 360px;
+  position: relative;
+  overflow: hidden;
+}
+
+.three-scene-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.40) 0%, transparent 26%, transparent 74%, rgba(0,0,0,0.40) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* HUD corners */
+.hud-corner {
+  position: absolute;
+  width: 16px; height: 16px;
+  z-index: 3;
+}
+
+.hud-tl { top:7px;    left:7px;  border-top:2px solid; border-left:2px solid;    border-color: rgba(212,137,10,0.55); }
+.hud-tr { top:7px;    right:7px; border-top:2px solid; border-right:2px solid;   border-color: rgba(212,137,10,0.55); }
+.hud-bl { bottom:7px; left:7px;  border-bottom:2px solid; border-left:2px solid;  border-color: rgba(212,137,10,0.55); }
+.hud-br { bottom:7px; right:7px; border-bottom:2px solid; border-right:2px solid; border-color: rgba(212,137,10,0.55); }
+
+.hud-label {
+  position: absolute;
+  bottom: 12px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────
+   SCROLL INDICATOR
+──────────────────────────────────── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 10;
+  opacity: 0.70;          /* was 0.55 — slightly more visible */
+  pointer-events: none;
+}
+
+.scroll-indicator span {
+  font-size: 0.52rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 38px;
+  animation: scrollPulse 1.6s ease-in-out infinite;
+}
