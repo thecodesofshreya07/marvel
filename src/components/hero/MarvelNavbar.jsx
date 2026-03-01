@@ -4,10 +4,10 @@ import "./MarvelNavbar.css";
 import { useNavigate } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "Avengers", href: "#act-one" },
-  { label: "Super Soldier", route: "/supersoldier" }, // 👈 changed
-  { label: "New Era", href: "#act-three" },
-  { label: "Multiverse Saga", href: "#multiverse" },
+  // { label: "Avengers", href: "#act-one" },
+  { label: "Super Soldier", route: "/supersoldier" },
+  { label: "Timeline & Multiverse", route: "/timeline" },   // 👈 Timeline route
+  // { label: "Multiverse Saga", href: "#multiverse" },
 ];
 
 export default function MarvelNavbar() {
@@ -59,25 +59,23 @@ export default function MarvelNavbar() {
           {/* ── DESKTOP LINKS ── */}
           <ul className="nav-links">
             {NAV_LINKS.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href || link.route}
-                  className="nav-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setMenuOpen(false);
+              <a
+                key={link.label}
+                href={link.href || link.route}
+                className="nav-mobile-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMenuOpen(false);
 
-                    if (link.route) {
-                      navigate(link.route);   // 🚀 route navigation
-                    } else {
-                      handleNav(e, link.href); // normal scroll
-                    }
-                  }}
-                >
-                  {link.label}
-                  <span className="nav-link-bar" />
-                </a>
-              </li>
+                  if (link.route) {
+                    navigate(link.route);   // 🚀 route navigation
+                  } else {
+                    handleNav(e, link.href); // scroll navigation
+                  }
+                }}
+              >
+                {link.label}
+              </a>
             ))}
           </ul>
 
